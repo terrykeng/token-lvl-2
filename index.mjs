@@ -2,19 +2,6 @@ import {loadStdlib} from '@reach-sh/stdlib';
 import * as backend from './build/index.main.mjs';
 const stdlib = loadStdlib(process.env);
 
-const shouldFail = async (fp) => {
-  let worked = undefined;
-  try {
-    await fp();
-    worked = true;
-  } catch (e) {
-    worked = false;
-  }
-  console.log(`\tshouldFail = ${worked}`);
-  if (worked !== false) {
-    throw Error(`shouldFail`);
-  }
-};
 
 const commonFunctions = {
   seeNotification : (ready) => {
@@ -43,7 +30,7 @@ const [ accAlice, accBob, accTee ] =
 
 
 const IToken = await stdlib.launchToken(accAlice, "TEE COIN", "TC");
-//const TToken = await stdlib.launchToken(accAlice,'tee', 'TEE');
+
 
 
 if ( stdlib.connector === 'ETH' || stdlib.connector === 'CFX' ) {
@@ -53,7 +40,7 @@ if ( stdlib.connector === 'ETH' || stdlib.connector === 'CFX' ) {
   accTee.setGasLimit(gasLimit);
 } else if ( stdlib.connector == 'ALGO' ) {
   console.log(`Demonstrating need to opt-in on ALGO`);
-  //await shouldFail(async () => await zorkmid.mint(accAlice, startingBalance));
+ 
   console.log(`Opt-ing in on ALGO`);
   await accAlice.tokenAccept(IToken.id);
   await accBob.tokenAccept(IToken.id);
